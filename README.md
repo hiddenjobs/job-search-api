@@ -8,6 +8,8 @@ Find remote technology jobs from your own app, AI agent, or workflow. This publi
 
 [Find remote tech jobs](https://hiddenjobs.dev/) · [Read the API documentation](https://hiddenjobs.dev/api/docs) · [Open the OpenAPI spec](https://api.hiddenjobs.dev/v1/openapi.json)
 
+Looking for an AI-native integration? Use the [Job Search MCP](https://github.com/hiddenjobs/job-search-mcp) instead.
+
 ## Hosted API
 
 The hosted API is ready to use:
