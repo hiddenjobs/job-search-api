@@ -90,9 +90,7 @@ export const isApiKeyScope = (value: unknown): value is ApiKeyScope =>
   typeof value === 'string' && API_KEY_SCOPES.includes(value as ApiKeyScope);
 
 export const normalizeApiKeyScopes = (value: unknown) => {
-  const requested = Array.isArray(value)
-    ? value.filter(isApiKeyScope)
-    : [];
+  const requested = Array.isArray(value) ? value.filter(isApiKeyScope) : [];
   const scopes = Array.from(new Set(requested));
 
   return scopes.length > 0 ? scopes : [...API_KEY_SCOPES];

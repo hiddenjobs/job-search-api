@@ -36,15 +36,17 @@ const search = await request(`/jobs?${params}`);
 assert(search.response.ok, `jobs search failed with HTTP ${search.response.status}`);
 
 const searchData = asRecord(asRecord(search.payload).data);
-const jobs = Array.isArray(searchData.jobs) ? searchData.jobs as Array<Record<string, unknown>> : [];
+const jobs = Array.isArray(searchData.jobs)
+  ? searchData.jobs as Array<Record<string, unknown>>
+  : [];
 assert(jobs.length > 0, 'jobs search returned no test job.');
 
 const firstJob = jobs[0];
 const identifier = typeof firstJob.id === 'string'
   ? firstJob.id
   : typeof firstJob.slug === 'string'
-    ? firstJob.slug
-    : '';
+  ? firstJob.slug
+  : '';
 assert(identifier, 'jobs search returned a job without an id or slug.');
 
 for (const field of ['url', 'application_url', 'source_url']) {
@@ -76,4 +78,6 @@ if (Deno.env.get('CHECK_APPLICATION_LINK') === 'true') {
   console.log(`application link: ${hasUrl ? 'authorized' : 'subscription gate'}`);
 }
 
-console.log(`API smoke test passed: ${jobs.length} job returned and public URL fields stayed protected.`);
+console.log(
+  `API smoke test passed: ${jobs.length} job returned and public URL fields stayed protected.`,
+);

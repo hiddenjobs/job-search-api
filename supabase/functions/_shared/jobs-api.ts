@@ -77,9 +77,33 @@ const remoteLocationMatchCodes: Record<string, string[]> = {
 };
 
 const searchStopWords = new Set([
-  'a', 'an', 'and', 'are', 'as', 'at', 'be', 'for', 'i', 'in', 'is',
-  'job', 'jobs', 'looking', 'of', 'on', 'or', 'remote', 'role', 'roles',
-  'show', 'the', 'to', 'want', 'we', 'with', 'work',
+  'a',
+  'an',
+  'and',
+  'are',
+  'as',
+  'at',
+  'be',
+  'for',
+  'i',
+  'in',
+  'is',
+  'job',
+  'jobs',
+  'looking',
+  'of',
+  'on',
+  'or',
+  'remote',
+  'role',
+  'roles',
+  'show',
+  'the',
+  'to',
+  'want',
+  'we',
+  'with',
+  'work',
 ]);
 
 export type PublicJob = {
@@ -126,7 +150,8 @@ const asNullableText = (value: unknown) => {
 
 const asStringArray = (value: unknown) =>
   Array.isArray(value)
-    ? value.filter((item): item is string => typeof item === 'string').map((item) => item.trim()).filter(Boolean)
+    ? value.filter((item): item is string => typeof item === 'string').map((item) => item.trim())
+      .filter(Boolean)
     : [];
 
 const isHttpUrl = (value: unknown) =>
@@ -147,12 +172,15 @@ const tokenizeSearchQuery = (value: string) =>
     .map((token) => token.trim())
     .filter((token) => token.length > 1 && !searchStopWords.has(token));
 
-const getDatabaseSearchTerms = (query: string) => Array.from(new Set(
-  tokenizeSearchQuery(query)
-    .flatMap((term) => term.split(/[^a-z0-9]+/i))
-    .map((term) => term.toLowerCase().trim())
-    .filter((term) => term.length > 1),
-)).slice(0, 12);
+const getDatabaseSearchTerms = (query: string) =>
+  Array.from(
+    new Set(
+      tokenizeSearchQuery(query)
+        .flatMap((term) => term.split(/[^a-z0-9]+/i))
+        .map((term) => term.toLowerCase().trim())
+        .filter((term) => term.length > 1),
+    ),
+  ).slice(0, 12);
 
 const normalizeAllowed = (value: string, allowed: Set<string>) =>
   allowed.has(value) ? value : 'All';
@@ -173,7 +201,9 @@ export const normalizeJobsSearchParams = (params: URLSearchParams): JobsSearchPa
     category: normalizeAllowed(params.get('category') || 'All', categories),
     employmentType: normalizeAllowed(params.get('employmentType') || 'All', employmentTypes),
     jobType: normalizeAllowed(params.get('jobType') || 'All', jobTypes),
-    remoteLocation: normalizeRemoteLocation(params.get('remoteLocation') || params.get('location') || 'All'),
+    remoteLocation: normalizeRemoteLocation(
+      params.get('remoteLocation') || params.get('location') || 'All',
+    ),
     page,
     limit,
   };
@@ -297,7 +327,9 @@ export const getPublicJob = async (supabase: SupabaseClient, idOrSlug: string) =
   const identifier = idOrSlug.trim();
   if (!identifier) return null;
 
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier);
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    identifier,
+  );
   const { data, error } = await supabase
     .from(jobsTable)
     .select('*')
@@ -313,7 +345,9 @@ export const getApplicationLink = async (supabase: SupabaseClient, idOrSlug: str
   const identifier = idOrSlug.trim();
   if (!identifier) return null;
 
-  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(identifier);
+  const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+    identifier,
+  );
   const { data, error } = await supabase
     .from(jobsTable)
     .select('url, application_url')
@@ -327,8 +361,8 @@ export const getApplicationLink = async (supabase: SupabaseClient, idOrSlug: str
   const url = isHttpUrl(row?.url)
     ? String(row?.url).trim()
     : isHttpUrl(row?.application_url)
-      ? String(row?.application_url).trim()
-      : null;
+    ? String(row?.application_url).trim()
+    : null;
 
   return url;
 };

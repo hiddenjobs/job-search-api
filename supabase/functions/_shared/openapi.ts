@@ -3,7 +3,8 @@ export const getOpenApiDocument = (serverUrl: string) => ({
   info: {
     title: 'Job Search API',
     version: '1.0.0',
-    description: 'Search remote job information. Original application links require an active subscription.',
+    description:
+      'Search remote job information. Original application links require an active subscription.',
   },
   servers: [{ url: serverUrl }],
   security: [{ bearerApiKey: [] }],
@@ -15,7 +16,9 @@ export const getOpenApiDocument = (serverUrl: string) => ({
         responses: {
           '200': {
             description: 'API is available',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/HealthResponse' } } },
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/HealthResponse' } },
+            },
           },
         },
       },
@@ -30,12 +33,18 @@ export const getOpenApiDocument = (serverUrl: string) => ({
           { name: 'jobType', in: 'query', schema: { type: 'string' } },
           { name: 'remoteLocation', in: 'query', schema: { type: 'string' } },
           { name: 'page', in: 'query', schema: { type: 'integer', minimum: 1, default: 1 } },
-          { name: 'limit', in: 'query', schema: { type: 'integer', minimum: 1, maximum: 50, default: 20 } },
+          {
+            name: 'limit',
+            in: 'query',
+            schema: { type: 'integer', minimum: 1, maximum: 50, default: 20 },
+          },
         ],
         responses: {
           '200': {
             description: 'Public job data without the original application URL',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/JobsResponse' } } },
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/JobsResponse' } },
+            },
           },
           '401': { $ref: '#/components/responses/Unauthorized' },
           '429': { $ref: '#/components/responses/RateLimited' },
@@ -49,7 +58,9 @@ export const getOpenApiDocument = (serverUrl: string) => ({
         responses: {
           '200': {
             description: 'Public job data without the original application URL',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/JobResponse' } } },
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/JobResponse' } },
+            },
           },
           '404': { description: 'Job not found' },
           '401': { $ref: '#/components/responses/Unauthorized' },
@@ -64,7 +75,11 @@ export const getOpenApiDocument = (serverUrl: string) => ({
         responses: {
           '200': {
             description: 'Original application URL',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/ApplicationLinkResponse' } } },
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ApplicationLinkResponse' },
+              },
+            },
           },
           '401': { $ref: '#/components/responses/Unauthorized' },
           '402': { description: 'Active subscription required' },
@@ -79,7 +94,9 @@ export const getOpenApiDocument = (serverUrl: string) => ({
         responses: {
           '200': {
             description: 'Current API key information',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/MeResponse' } } },
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/MeResponse' } },
+            },
           },
           '401': { $ref: '#/components/responses/Unauthorized' },
         },
@@ -91,7 +108,9 @@ export const getOpenApiDocument = (serverUrl: string) => ({
         responses: {
           '200': {
             description: 'Current request usage and limits',
-            content: { 'application/json': { schema: { $ref: '#/components/schemas/UsageResponse' } } },
+            content: {
+              'application/json': { schema: { $ref: '#/components/schemas/UsageResponse' } },
+            },
           },
           '401': { $ref: '#/components/responses/Unauthorized' },
         },
@@ -163,11 +182,18 @@ export const getOpenApiDocument = (serverUrl: string) => ({
       },
       ApplicationLinkResponse: {
         type: 'object',
-        properties: { data: { type: 'object', properties: { url: { type: 'string', format: 'uri' } } } },
+        properties: {
+          data: { type: 'object', properties: { url: { type: 'string', format: 'uri' } } },
+        },
       },
       HealthResponse: {
         type: 'object',
-        properties: { data: { type: 'object', properties: { status: { type: 'string' }, version: { type: 'string' } } } },
+        properties: {
+          data: {
+            type: 'object',
+            properties: { status: { type: 'string' }, version: { type: 'string' } },
+          },
+        },
       },
       MeResponse: {
         type: 'object',

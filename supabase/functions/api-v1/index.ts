@@ -1,5 +1,5 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
-import { authenticateApiKey, type ApiKeyAuth } from '../_shared/api-keys.ts';
+import { type ApiKeyAuth, authenticateApiKey } from '../_shared/api-keys.ts';
 import { corsHeaders, jsonResponse } from '../_shared/cors.ts';
 import {
   getApplicationLink,
@@ -16,8 +16,8 @@ const apiVersion = '1';
 
 const supabase = supabaseUrl && serviceRoleKey
   ? createClient(supabaseUrl, serviceRoleKey, {
-      auth: { persistSession: false },
-    })
+    auth: { persistSession: false },
+  })
   : null;
 
 const responseHeaders = {
@@ -55,7 +55,10 @@ const authErrorResponse = (auth: ApiKeyAuth) => {
   }
 
   if (auth.reason === 'scope') {
-    return apiResponse({ error: 'This API key does not have the required scope.', code: 'insufficient_scope' }, 403);
+    return apiResponse({
+      error: 'This API key does not have the required scope.',
+      code: 'insufficient_scope',
+    }, 403);
   }
 
   if (auth.reason === 'paused') {
@@ -116,7 +119,10 @@ Deno.serve(async (req) => {
     if (!auth.ok) return authErrorResponse(auth);
 
     try {
-      const result = await searchPublicJobs(supabase, normalizeJobsSearchParams(new URL(req.url).searchParams));
+      const result = await searchPublicJobs(
+        supabase,
+        normalizeJobsSearchParams(new URL(req.url).searchParams),
+      );
       return apiResponse({ data: result });
     } catch (error) {
       console.error('[api-v1] job search failed:', error instanceof Error ? error.message : error);
@@ -138,7 +144,10 @@ Deno.serve(async (req) => {
     }
   }
 
-  if (route[0] === 'jobs' && route.length === 3 && route[2] === 'application-link' && method === 'POST') {
+  if (
+    route[0] === 'jobs' && route.length === 3 && route[2] === 'application-link' &&
+    method === 'POST'
+  ) {
     const auth = await authenticateApiKey(supabase, req, 'application-links:read');
     if (!auth.ok) return authErrorResponse(auth);
     if (!auth.userId) return apiResponse({ error: 'API key owner could not be identified.' }, 401);
@@ -159,7 +168,10 @@ Deno.serve(async (req) => {
         'Cache-Control': 'no-store, private',
       });
     } catch (error) {
-      console.error('[api-v1] application link failed:', error instanceof Error ? error.message : error);
+      console.error(
+        '[api-v1] application link failed:',
+        error instanceof Error ? error.message : error,
+      );
       return apiResponse({ error: 'Unable to load the application link.' }, 500);
     }
   }
