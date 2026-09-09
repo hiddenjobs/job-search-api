@@ -1,0 +1,20 @@
+# Security policy
+
+## Credentials
+
+Access keys are bearer credentials. Do not commit them, include them in screenshots, or paste them into issues and pull requests. Store them in a server-side secret store or an environment variable.
+
+If a key is exposed, revoke it from the [developer dashboard](https://hiddenjobs.dev/dashboard) and create a replacement immediately.
+
+Supabase keys belong in the server-side Edge Function configuration. A Supabase service-role key must never be sent to an API client or included in this repository.
+
+## Reporting a vulnerability
+
+Do not open a public issue for a security vulnerability. Contact the maintainers privately with:
+
+- A short description of the issue
+- The affected endpoint or file
+- Reproduction steps that do not include live credentials
+- The potential impact
+
+Please allow time for assessment and remediation before public disclosure.

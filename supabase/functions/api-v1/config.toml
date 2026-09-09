@@ -1,0 +1,2 @@
+# The function authenticates bearer API keys itself.
+verify_jwt = false

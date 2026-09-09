@@ -1,0 +1,4 @@
+# The API endpoint authenticates bearer API keys itself.
+# Supabase JWT verification must therefore be disabled for this function.
+[functions.api-v1]
+verify_jwt = false
