@@ -42,7 +42,7 @@ The API is useful for:
 3. Search and detail endpoints return public job data without original source URLs
 4. The application-link endpoint performs a second access check before returning the original URL
 
-The API does not auto-apply to jobs. It helps a user or product discover and evaluate roles, then open the right application destination when the account has the required access.
+The API helps a user or product discover and evaluate roles, then retrieve the original application link when the account has the required access. The user completes the application on the employer’s website.
 
 ```mermaid
 flowchart LR
